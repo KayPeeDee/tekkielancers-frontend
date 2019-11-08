@@ -1,0 +1,18 @@
+{
+  "npmScope": "smart-frontend",
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "main-portal": {
+      "tags": []
+    },
+    "main-portal-e2e": {
+      "tags": []
+    }
+  }
+}
