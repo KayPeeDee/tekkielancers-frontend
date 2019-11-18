@@ -1,115 +1,169 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Router, Switch, Route, Link } from 'react-router-dom';
+import { Navbar, Nav, NavItem, NavDropdown } from "react-bootstrap";
+
+
+import Jumbotron from 'react-bootstrap/Jumbotron'
+import Container from 'react-bootstrap/Container'
 
 import './app.scss';
+import Home from './components/home/home';
+import Dashboard from './components/dashboard/dashboard';
 
-export const App = () => {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./${fileName}.${style} file.
-   */
-  return (
-    <div className="app">
-      <header className="flex">
-        <img
-          alt=""
-          width="75"
-          src="https://nx.dev/assets/images/nx-logo-white.svg"
-        />
-        <h1>Welcome to main-portal!</h1>
-      </header>
-      <main>
-        <h2>Resources &amp; Tools</h2>
-        <p>Thank you for using and showing some ♥ for Nx.</p>
-        <div className="flex github-star-container">
-          <a
-            href="https://github.com/nrwl/nx"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {' '}
-            If you like Nx, please give it a star:
-            <div className="github-star-badge">
-              <svg
-                className="material-icons"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-              Star
-            </div>
-          </a>
+const list = [
+  {
+    title: 'React',
+    url: 'https://facebook.github.io/react/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://github.com/reactjs/redux',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+const isSearched = searchTerm => item => item.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+interface IApp{
+  list: any[],
+  searchTerm: string
+}
+class App extends Component<{}, IApp>{
+
+  constructor(props){
+    super(props);
+    console.log(props);
+    this.state = {
+      list: [],
+      searchTerm: '',
+    }
+    console.log(this.state);
+    this.onDismiss = this.onDismiss.bind(this);
+    this.onSearchChange = this.onSearchChange.bind(this);
+  }
+
+  componentDidMount(){
+    this.loadData();
+    
+  }
+
+  loadData(){
+      setTimeout(()=>{
+          this.setState({list})
+      }, 500)
+  }
+
+  onDismiss(id){
+    console.log("Item dismissed")
+    const updatedList = this.state.list.filter(item => item.objectID !== id);
+    this.setState({ list: updatedList });
+  }
+
+  onSearchChange(event){
+    console.log(event.target.value);
+    this.setState({ searchTerm: event.target.value });
+  }
+  
+  render() {
+    return (
+
+     
+      // <div>
+      //   <h1>Welcome to Tekkielancers the African leader in technology freelancing services!!!</h1>
+      //   <form>
+      //     <input type="text" onChange={this.onSearchChange}/>
+      //   </form>
+      //   {
+      //     this.state.list.filter(isSearched(this.state.searchTerm)).map(item => {
+      //       return (
+      //         <div key={item.objectID}>
+      //           <span>
+      //             <a href={item.url}>{item.title}</a>
+      //           </span>
+      //           <span>{item.author}</span>
+      //           <span>{item.num_comments}</span>
+      //           <span>{item.points}</span> &nbsp;&nbsp;
+      //           <span>
+      //             <button
+      //               onClick = { () => this.onDismiss(item.objectID)} 
+      //               type="button"
+      //             >
+      //               Dismiss
+      //             </button>
+      //           </span>
+      //         </div>
+      //       );
+      //     })
+      //   }
+      // </div>
+
+      // <Container className="p-3">
+      //   <Jumbotron>
+      //     <h1 className="header">Welcome To React-Bootstrap Typescript Example</h1>
+      //   </Jumbotron>
+      //   <h2>Buttons</h2>
+        
+      // </Container>
+
+      <div>
+        <Navbar bg="light" expand="lg">
+          <Container className="p-3">
+            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link as={Link} to="/">Home</Nav.Link>
+              <Nav.Link  as={Link} to="/dashboard">Dashboard</Nav.Link>
+              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+            
+          </Navbar.Collapse>
+          </Container>
+        </Navbar>
+
+        <div>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path="/dashboard" component={Dashboard} />
+          </Switch>
         </div>
-        <p>Here are some links to help you get started.</p>
-        <ul className="resources">
-          <li className="col-span-2">
-            <li className="col-span-2">
-              <a
-                className="resource flex"
-                href="https://connect.nrwl.io/app/courses/nx-workspaces/intro"
-              >
-                Nx video course
-              </a>
-            </li>
-            <a
-              className="resource flex"
-              href="https://nx.dev/react/getting-started/what-is-nx"
-            >
-              Nx video tutorial
-            </a>
-          </li>
-          <li className="col-span-2">
-            <a
-              className="resource flex"
-              href="https://nx.dev/react/tutorial/01-create-application"
-            >
-              Interactive tutorial
-            </a>
-          </li>
-          <li className="col-span-2">
-            <a className="resource flex" href="https://connect.nrwl.io/">
-              <img
-                height="36"
-                alt="Nrwl Connect"
-                src="https://connect.nrwl.io/assets/img/CONNECT_ColorIcon.png"
-              />
-              <span className="gutter-left">Nrwl Connect</span>
-            </a>
-          </li>
-        </ul>
-        <h2>Next Steps</h2>
-        <p>Here are some things you can do with Nx.</p>
-        <details open>
-          <summary>Add UI library</summary>
-          <pre>{`# Generate UI lib
-nx g @nrwl/react:lib ui
 
-# Add a component
-nx g @nrwl/react:component xyz --project ui`}</pre>
-        </details>
-        <details>
-          <summary>View dependency graph</summary>
-          <pre>{`nx dep-graph`}</pre>
-        </details>
-        <details>
-          <summary>Run affected commands</summary>
-          <pre>{`# see what's been affected by changes
-nx affected:dep-graph
+      </div>
 
-# run tests for current changes
-nx affected:test
+      
 
-# run e2e tests for current changes
-nx affected:e2e
-`}</pre>
-        </details>
-      </main>
-    </div>
-  );
-};
+      // <Router>
+      //   <div>
+      //     <ul>
+      //       <li>
+      //         <Link to="/">Start</Link>
+      //       </li>
+      //       <li>
+      //         <Link to="/home">Home</Link>
+      //       </li>
+           
+      //     </ul>
+      //     <Switch>
+      //       <Route exact path="/" component={App} />
+      //       <Route path="/users" component={Home} />
+      //     </Switch>
+      //   </div>
+      // </Router>
+    )
+  }
+}
 
 export default App;
