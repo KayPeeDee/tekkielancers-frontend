@@ -13,6 +13,24 @@
     },
     "main-portal-e2e": {
       "tags": []
+    },
+    "admin-portal": {
+      "tags": []
+    },
+    "admin-portal-e2e": {
+      "tags": []
+    },
+    "developer-portal": {
+      "tags": []
+    },
+    "developer-portal-e2e": {
+      "tags": []
+    },
+    "client-portal": {
+      "tags": []
+    },
+    "client-portal-e2e": {
+      "tags": []
     }
   }
 }
